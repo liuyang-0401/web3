@@ -1,21 +1,26 @@
 require('@nomicfoundation/hardhat-toolbox')
 require('dotenv').config()
+require('hardhat-deploy')
 /** @type import('hardhat/config').HardhatUserConfig */
+
+const PRIVATE_KEY = process.env.PRIVATE_KEY
+const PRIVATE_KEY_2 = process.env.PRIVATE_KEY_2
+const SEPOLIA_URL = process.env.SEPOLIA_URL
 module.exports = {
   solidity: '0.8.24',
   networks: {
-    hardhat: {},
     sepolia: {
-      url: 'https://eth-sepolia.g.alchemy.com/v2/' + process.env.ALCHEMY_API_KEY,
-      accounts: [`0x${process.env.PRIVATE_KEY}`]
+      url: SEPOLIA_URL,
+      chainId: 11155111,
+      accounts: [PRIVATE_KEY, PRIVATE_KEY_2]
+    }
+  },
+  namedAccounts: {
+    firstAccount: {
+      default: 0
+    },
+    secondAccount: {
+      default: 1
     }
   }
 }
-
-// task('accounts', 'Prints the list of accounts', async (taskArgs, hre) => {
-//   const accounts = await hre.ethers.getSigners()
-
-//   for (const account of accounts) {
-//     console.log(account.address)
-//   }
-// })
